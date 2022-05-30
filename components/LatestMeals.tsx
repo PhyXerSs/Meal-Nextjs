@@ -57,16 +57,38 @@ function LatestMeals() {
         if(category === 'Side'){
             return 'bg-[#5b8722]';
         }
+        if(category === 'Miscellaneous'){
+            return 'bg-[#FFCC8F]'
+        }
+        if(category === 'Pork'){
+            return 'bg-[#e596a2]'
+        }
+        if(category === 'Chicken'){
+            return 'bg-[#d46800]'
+        }
+        if(category ==='Seafood'){
+            return 'bg-[#7FB5FF]'
+        }
+        if(category === 'Vegetarian' || 'Vegan'){
+            return 'bg-[#9ebe59]'
+        }
+        if(category === 'Goat'){
+            return 'bg-[#d6cabe]'
+        }
+        if(category === 'Lamb'){
+            return 'bg-[#7c373c]'
+        }
+        return 'bg-[#ecac39]'
     }
 
     return (
         <div className="w-full max-w-[1100px] flex flex-col items-start justify-start mt-6 px-5 pt-5 shadow-md rounded-xl bg-white">
             <p className="font-semibold text-xl text-gray-600">Latest Meals</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
+            <div className="w-full grid grid-cols-4 gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
                 {
                 foodData !== null ? foodData.map((food)=>(
-                    <div key={`latest${food.idMeal}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg">
-                        <div className='h-[150px] w-full rounded-t-xl' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} ></div>
+                    <div key={`latest${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg">
+                        <img src={food.strMealThumb} alt="" className='max-w-[250px] h-full max-h-[150px] w-full rounded-t-xl object-cover '/>
                         <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
                             <p className="font-semibold text-gray-600 w-full overflow-hidden whitespace-nowrap">{truncate(food.strMeal,25)}</p>
                             <div className={`px-3 flex w-fit ${colorCategory(food.strCategory)} rounded-full mt-2`}>
