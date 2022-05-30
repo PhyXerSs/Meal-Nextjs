@@ -14,8 +14,6 @@ export interface BannerMealType{
     strInstructions:string,
     strMealThumb:string,
     strTags:string,
-    // strIngredient:string[],
-    // strMeasure:string[],
 }
 
 function Banner() {

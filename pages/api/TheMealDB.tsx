@@ -223,6 +223,112 @@ export async function getLatestMeals(){
     let latestMealsNameList = ["Chivito" , "Walnut" , "Fresh" , "Burek" , "Mushroom soup" , "Croatian Bean Stew" , "Traditional Croatian Goulash" , "Croatian lamb peka"];
     let result = await Promise.all(latestMealsNameList.map((name)=>axios.get(`${API_PATH}/search.php?s=${name}`)));
     return result as latestMealsReasultType[];
-    
+}
 
+export interface allNationTypeResult{
+    meals:[
+        {
+            strArea:string
+        }
+    ]
+}
+
+export async function getAllNation(){
+    let result = await axios.get(`${API_PATH}/list.php?a=list`);
+    return result.data as allNationTypeResult;
+}
+
+export interface mealsByNationType{
+    idMeal:string,
+    strMeal:string,
+    strMealThumb:string
+}
+export interface mealsByNationTypeResult{
+    meals:[
+        mealsByNationType
+    ]
+}
+
+export async function getMealsByNation(nation:string) {
+    let result = await axios.get(`${API_PATH}/filter.php?a=${nation}`);
+    return result.data as mealsByNationTypeResult;
+    
+}
+
+export interface getMealByIdResultType{
+    meals:[
+        {
+            idMeal:string,
+            strMeal:string,
+            strCategory:string,
+            strArea:string,
+            strInstructions:string,
+            strMealThumb:string,
+            strTags:string,
+        }
+    ]
+}
+
+export async function getMealById(id:string) {
+    let result = await axios.get(`${API_PATH}/lookup.php?i=${id}`);
+    return result.data as getMealByIdResultType;
+}
+
+export interface recommendNationalMealsType{
+    idMeal:string,
+    strMeal:string,
+    strMealThumb:string,
+    strCategory:string,
+    strArea:string,
+}
+
+export async function getRecommendNationalMeals() {
+    let nationList = await getAllNation();
+    let allNationMealsResult = await Promise.all(nationList.meals.map((nation)=> getMealsByNation(nation.strArea))) as mealsByNationTypeResult[];
+    let recommendNationMealsList = [] as recommendNationalMealsType[];
+    for(let index = 0 ; index < allNationMealsResult.length ; index++){
+        for(let i = 0 ; i < allNationMealsResult[index].meals.length ; i++){
+            if(
+            (index === 0 && allNationMealsResult[index].meals[i].strMeal === 'Big Mac')
+            ||(index === 1 && allNationMealsResult[index].meals[i].strMeal === 'Turkey Meatloaf')
+            ||(index === 2 && allNationMealsResult[index].meals[i].strMeal === 'Tourtiere')
+            ||(index === 3 && allNationMealsResult[index].meals[i].strMeal === 'Wontons')
+            ||(index === 4 && allNationMealsResult[index].meals[i].strMeal === 'Croatian Bean Stew')
+            ||(index === 5 && allNationMealsResult[index].meals[i].strMeal === 'Stamppot')
+            ||(index === 6 && allNationMealsResult[index].meals[i].strMeal === 'Shawarma')
+            ||(index === 7 && allNationMealsResult[index].meals[i].strMeal === 'Brie wrapped in prosciutto & brioche')
+            ||(index === 8 && allNationMealsResult[index].meals[i].strMeal === 'Garides Saganaki')
+            ||(index === 9 && allNationMealsResult[index].meals[i].strMeal === 'Matar Paneer')
+            ||(index === 10 && allNationMealsResult[index].meals[i].strMeal === 'Corned Beef and Cabbage')
+            ||(index === 11 && allNationMealsResult[index].meals[i].strMeal === 'Vegan Lasagna')
+            ||(index === 12 && allNationMealsResult[index].meals[i].strMeal === 'Escovitch Fish')
+            ||(index === 13 && allNationMealsResult[index].meals[i].strMeal === 'Honey Teriyaki Salmon')
+            ||(index === 14 && allNationMealsResult[index].meals[i].strMeal === 'Mbuzi Choma (Roasted Goat)')
+            ||(index === 15 && allNationMealsResult[index].meals[i].strMeal === 'Mee goreng mamak')
+            ||(index === 16 && allNationMealsResult[index].meals[i].strMeal === 'Chickpea Fajitas')
+            ||(index === 17 && allNationMealsResult[index].meals[i].strMeal === 'Lamb Tagine')
+            ||(index === 18 && allNationMealsResult[index].meals[i].strMeal === 'Bigos (Hunters Stew)')
+            ||(index === 19 && allNationMealsResult[index].meals[i].strMeal === 'Portuguese prego with green piri-piri')
+            ||(index === 20 && allNationMealsResult[index].meals[i].strMeal === 'Beef stroganoff')
+            ||(index === 21 && allNationMealsResult[index].meals[i].strMeal === 'Spanish Tortilla')
+            ||(index === 22 && allNationMealsResult[index].meals[i].strMeal === 'Thai Green Curry')
+            ||(index === 23 && allNationMealsResult[index].meals[i].strMeal === 'Tuna and Egg Briks')
+            ||(index === 24 && allNationMealsResult[index].meals[i].strMeal === 'Corba')
+            ||(index === 26 && allNationMealsResult[index].meals[i].strMeal === 'Vietnamese Grilled Pork (bun-thit-nuong)')
+            ){
+                let mealData = await getMealById(allNationMealsResult[index].meals[i].idMeal);
+                let recommendNationMeals = {} as recommendNationalMealsType;
+                recommendNationMeals.idMeal = allNationMealsResult[index].meals[i].idMeal;
+                recommendNationMeals.strMeal = allNationMealsResult[index].meals[i].strMeal;
+                recommendNationMeals.strMealThumb = allNationMealsResult[index].meals[i].strMealThumb;
+                recommendNationMeals.strCategory = mealData.meals[0].strCategory;
+                recommendNationMeals.strArea = mealData.meals[0].strArea;
+                recommendNationMealsList.push(recommendNationMeals);
+            }
+
+        }
+    }
+    return recommendNationMealsList;
+    
+    
 }
