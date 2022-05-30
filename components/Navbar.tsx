@@ -12,10 +12,9 @@ export interface categoryType{
 }
 
 function Navbar() {
-    const [ isNavClick , setIsNavClick ] = useState<boolean>(false);
     const [ categoryData , setCategoryData ] = useState<categoryType[] | null>( null );
     const router = useRouter();
-    
+    const [showBgNavbar,setShowBgNavbar] = useState<boolean>(false);
     useEffect(()=>{
         (async function() {
            let resultCategories = await getListCategories() as listCategoriesResultType;
@@ -30,10 +29,23 @@ function Navbar() {
            })
            setCategoryData(listCategories);
         }())
-    },[])
+
+        window.addEventListener("scroll",()=>{
+            if(window.scrollY > 70){
+                setShowBgNavbar(true);
+            }else setShowBgNavbar(false);
+        });
+        return ()=>{
+            window.removeEventListener("scroll",()=>{
+                if(window.scrollY > 70){
+                    setShowBgNavbar(true);
+                }else setShowBgNavbar(false);
+            });
+        }
+    },[]);
 
     return (
-        <div className="fixed w-full top-0 flex h-20 justify-center items-center z-[999]">
+        <div className={`fixed w-full top-0 flex h-[74px] justify-center items-center z-[999] ${showBgNavbar ? "bg-white border-b-2 border-orange-900" : "bg-transparent"} ease-in duration-200`}>
             <div className='flex w-full max-w-5xl justify-end items-center gap-7'>
                 <div className='flex justify-center items-center rounded-full bg-transparent hover:bg-orange-900 hover:text-white cursor-pointer ease-in duration-200 px-4 py-1'
                     onClick={()=>{
