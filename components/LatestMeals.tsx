@@ -62,7 +62,7 @@ function LatestMeals() {
     return (
         <div className="w-full max-w-[1100px] flex flex-col items-start justify-start mt-6 px-5 pt-5 shadow-md rounded-xl bg-white">
             <p className="font-semibold text-xl text-gray-600">Latest Meals</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-5 mt-4 py-4 border-t-[1px] border-gray-200">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
                 {
                 foodData !== null ? foodData.map((food)=>(
                     <div key={`latest${food.idMeal}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg">
