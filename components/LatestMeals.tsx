@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { getLatestMeals } from '../pages/api/TheMealDB'
-import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
 import { AppDispatch, RootState } from '../StateManageMent/store';
-
+import ModalLatestMeals from './ModalLatestMeals';
 export interface latestMealType{
     idMeal:string,
     strCategory:string,
@@ -13,8 +12,6 @@ export interface latestMealType{
 
 function LatestMeals() {
     const [ foodData , setFoodData ] = useState<latestMealType[]|null>(null);
-    const mealIdSelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.MealId.value)
-    const dispatch = useDispatch<AppDispatch>();
     useEffect(()=>{
         (async function() {
             let result = await getLatestMeals();
@@ -28,12 +25,10 @@ function LatestMeals() {
                 latestMealList.push(latestMeal);
             });
             setFoodData(latestMealList);
-        }())
+        }());
     },[])
 
-    function truncate(str:string,n:number){
-        return str?.length > n ? str.substr(0,n-1) + "..." : str;
-    }
+    
 
     function skeletonLoading(){
         let skeletonList = [] as JSX.Element[];
@@ -52,59 +47,13 @@ function LatestMeals() {
         return skeletonList;
     }
 
-    function colorCategory(category:string){
-        if(category === 'Beef'){
-            return 'bg-orange-900';
-        }
-        if(category === 'Dessert'){
-            return 'bg-[#ecac39]'
-        }
-        if(category === 'Side'){
-            return 'bg-[#5b8722]';
-        }
-        if(category === 'Miscellaneous'){
-            return 'bg-[#FFCC8F]'
-        }
-        if(category === 'Pork'){
-            return 'bg-[#e596a2]'
-        }
-        if(category === 'Chicken'){
-            return 'bg-[#d46800]'
-        }
-        if(category ==='Seafood'){
-            return 'bg-[#7FB5FF]'
-        }
-        if(category === 'Vegetarian' || 'Vegan'){
-            return 'bg-[#9ebe59]'
-        }
-        if(category === 'Goat'){
-            return 'bg-[#d6cabe]'
-        }
-        if(category === 'Lamb'){
-            return 'bg-[#7c373c]'
-        }
-        return 'bg-[#ecac39]'
-    }
-
     return (
         <div className="w-full max-w-[1100px] flex flex-col items-start justify-start mt-6 px-5 pt-5 shadow-md rounded-xl bg-white">
             <p className="font-semibold text-xl text-gray-600">Latest Meals</p>
             <div className="w-full grid grid-cols-4 gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
                 {
-                foodData !== null ? foodData.map((food)=>(
-                    <div key={`latest${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg cursor-pointer"
-                        onClick={()=>{
-                            dispatch(setNewMealIdSelect(food.idMeal))
-                        }}
-                    >
-                        <img src={food.strMealThumb} alt="" className='max-w-[250px] h-full max-h-[150px] w-full rounded-t-xl object-cover '/>
-                        <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
-                            <p className="font-semibold text-gray-600 w-full overflow-hidden whitespace-nowrap">{truncate(food.strMeal,25)}</p>
-                            <div className={`px-3 flex w-fit ${colorCategory(food.strCategory)} rounded-full mt-2`}>
-                                <p className="text-sm text-white font-semibold">{food.strCategory}</p>
-                            </div>
-                        </div>
-                    </div>
+                foodData !== null ? foodData.map((food,index)=>(
+                    <ModalLatestMeals food={food} index={index}/>
                 )):
                 skeletonLoading()
                 
