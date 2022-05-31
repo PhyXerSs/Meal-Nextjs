@@ -330,3 +330,19 @@ export async function getRecommendNationalMeals() {
     }
     return recommendNationMealsList;
 }
+
+export interface mealsByNationTypeResult{
+    meals:[
+        {
+            idMeal:string,
+            strMeal:string,
+            strMealThumb:string
+        }
+    ]
+}
+
+export async function getMealsByCategory(category:string) {
+    let result = await axios.get(`${API_PATH}/filter.php?c=${category}`);
+    return result.data as mealsByNationTypeResult;
+
+}

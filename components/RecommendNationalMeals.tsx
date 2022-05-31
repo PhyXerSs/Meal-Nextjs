@@ -29,7 +29,7 @@ function RecommendNationalMeals() {
         let skeletonList = [] as JSX.Element[];
         for(let i = 0 ; i < 8 ; i++){
             skeletonList.push(
-                <div key={`skeletonRecommend${i}`} className="w-[100px] md:w-[180px] lg:w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
+                <div key={`skeletonRecommend${i}`} className="w-[100px] md:w-[180px] lg:w-[250px] h-fit flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
                     <div className=' w-[100px] h-[80px] md:w-[180px] md:h-[100px] lg:w-[250px] lg:h-[150px] rounded-t-xl bg-[#cdcfd1]'></div>
                     <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
                         <div className="w-[50px] md:w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
@@ -79,9 +79,6 @@ function RecommendNationalMeals() {
         let result =  countries.find(country=> country.name === nation) as countriesType;
         return result.flagImage
     }
-
-    console.log(mealIdSelect);
-    
 
     return (
         <div className="w-full max-w-[1100px] flex flex-col items-start justify-start mt-6 px-5 pt-5 shadow-md rounded-xl bg-white">

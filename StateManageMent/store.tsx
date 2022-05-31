@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import NatonalReducer from './NationalSelect'
 import MealIdReducer from './MealIdSelect'
+import CategoryReducer from './CategorySelect'
 const store = configureStore({
   reducer: {
+      Category: CategoryReducer,
       National: NatonalReducer,
-      MealId: MealIdReducer
+      MealId: MealIdReducer,
   },
 
 })

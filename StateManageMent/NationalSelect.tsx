@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { stat } from 'fs/promises';
+
+export interface NationalSelectStateType{
+    nationName : string ,
+    flag : string
+}
 
 export const NationalSelect = createSlice({
-    name: "Category_Or_Nation_Select",
+    name: "National_Select",
     initialState: {
-        value:'-' as string ,
-    },
+        nationName:'-' as string ,
+        flag:'-' as string
+    } as NationalSelectStateType,
     reducers:{
         setNationalSelectValue:(state:any,action:any)=>{
-            state.value = action.payload
+            state.nationName = action.payload.nationName,
+            state.flag = action.payload.flag
         }
     }
 })

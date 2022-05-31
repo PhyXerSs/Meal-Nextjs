@@ -6,6 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux'
 import { setNationalSelectValue } from '../StateManageMent/NationalSelect';
 import { AppDispatch, RootState } from '../StateManageMent/store';
+import { setCategorySelectState } from '../StateManageMent/CategorySelect';
 export interface categoryType{
     idCategory:string,
     strCategory:string,
@@ -17,7 +18,6 @@ function Navbar() {
     const [ categoryData , setCategoryData ] = useState<categoryType[] | null>( null );
     const router = useRouter();
     const [showBgNavbar,setShowBgNavbar] = useState<boolean>(false);
-    const CategorySelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.National.value)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(()=>{
@@ -79,7 +79,10 @@ function Navbar() {
                             {countries.map((country,index)=>(
                                 <Popover.Button key={`countryNav${index}`} className='flex w-full justify-start items-center py-1 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
                                     onClick={()=>{
-                                        dispatch(setNationalSelectValue(country.name))
+                                        dispatch(setNationalSelectValue({
+                                            nationName:country.name,
+                                            flag : country.flagImage
+                                        }))
                                     }}
                                 >
                                     <img src={country.flagImage} className="w-10 rounded-sm" alt="no image" />
@@ -110,7 +113,10 @@ function Navbar() {
                             {categoryData !== null ? categoryData.map((category)=>(
                                 <Popover.Button key={`catergoryNav${category.idCategory}`} className='flex w-full justify-start items-center py-3 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
                                     onClick={()=>{
-                                        dispatch(setNationalSelectValue(category.strCategory))
+                                        dispatch(setCategorySelectState({
+                                            categoryName:category.strCategory,
+                                            picture:category.strCategoryThumb
+                                        }))
                                     }}
                                 >
                                     <img src={category.strCategoryThumb} className="w-10 rounded-sm" alt="no image" />
