@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { countries, countriesType, getAllNation, getMealsByNation, getRecommendNationalMeals, mealsByNationType, recommendNationalMealsType } from '../pages/api/TheMealDB'
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-import { EffectFade, Pagination , Autoplay } from "swiper";
+import "swiper/css/effect-creative";
+import { EffectCreative , Pagination , Autoplay } from "swiper";
 import CircularProgress from '@mui/material/CircularProgress';
 function RecommendNationalMeals() {
 
@@ -25,7 +25,7 @@ function RecommendNationalMeals() {
         let skeletonList = [] as JSX.Element[];
         for(let i = 0 ; i < 8 ; i++){
             skeletonList.push(
-                <div key={`skeletonLatest${i}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
+                <div key={`skeletonRecommend${i}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
                     <div className='h-[150px] w-full rounded-t-xl bg-[#cdcfd1]'></div>
                     <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
                         <div className="w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
@@ -85,18 +85,24 @@ function RecommendNationalMeals() {
                 <Swiper
                     slidesPerView={1}
                     slidesPerGroup={1}
-                    effect={"fade"}
+                    effect={"creative"}
+                    creativeEffect={{
+                    prev: {
+                        shadow: true,
+                        translate: [0, 0, -600],
+                    },
+                    next: {
+                        translate: ["100%", 0, 0],
+                    },
+                    }}
                     autoplay={{
                         delay: 3000,
                         disableOnInteraction:false,
                     }}
-                    fadeEffect={{
-                        crossFade: true
-                    }}
                     pagination={{
                         clickable: true,
                     }}
-                    modules={[EffectFade,Pagination,Autoplay]}
+                    modules={[EffectCreative , Pagination,Autoplay]}
                     className="row-span-2 col-span-2 w-full max-w-[520px] flex justify-center items-center justify-items-center rounded-t-xl"
                 >
                     {recommendNationMeals.map((food)=>(
