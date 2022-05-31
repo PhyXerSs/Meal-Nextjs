@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { getLatestMeals } from '../pages/api/TheMealDB'
+import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
+import { AppDispatch, RootState } from '../StateManageMent/store';
 
 export interface latestMealType{
     idMeal:string,
@@ -10,6 +13,8 @@ export interface latestMealType{
 
 function LatestMeals() {
     const [ foodData , setFoodData ] = useState<latestMealType[]|null>(null);
+    const mealIdSelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.MealId.value)
+    const dispatch = useDispatch<AppDispatch>();
     useEffect(()=>{
         (async function() {
             let result = await getLatestMeals();
@@ -34,11 +39,11 @@ function LatestMeals() {
         let skeletonList = [] as JSX.Element[];
         for(let i = 0 ; i < 8 ; i++){
             skeletonList.push(
-                <div key={`skeletonLatest${i}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
-                    <div className='h-[150px] w-full rounded-t-xl bg-[#cdcfd1]'></div>
+                <div key={`skeletonLatest${i}`} className="w-[100px] md:w-[180px] lg:w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
+                    <div className=' w-[100px] h-[80px] md:w-[180px] md:h-[100px] lg:w-[250px] lg:h-[150px] rounded-t-xl bg-[#cdcfd1]'></div>
                     <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
-                        <div className="w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
-                        <div className="px-3 w-[40px] h-[10px] bg-[#cbcdcf] rounded-full mt-3"></div>
+                        <div className="w-[50px] md:w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
+                        <div className="px-3 w-[20px] md:w-[40px] h-[10px] bg-[#cbcdcf] rounded-full mt-3"></div>
                     </div>
                 </div>
             );
@@ -87,7 +92,11 @@ function LatestMeals() {
             <div className="w-full grid grid-cols-4 gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
                 {
                 foodData !== null ? foodData.map((food)=>(
-                    <div key={`latest${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg">
+                    <div key={`latest${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg cursor-pointer"
+                        onClick={()=>{
+                            dispatch(setNewMealIdSelect(food.idMeal))
+                        }}
+                    >
                         <img src={food.strMealThumb} alt="" className='max-w-[250px] h-full max-h-[150px] w-full rounded-t-xl object-cover '/>
                         <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
                             <p className="font-semibold text-gray-600 w-full overflow-hidden whitespace-nowrap">{truncate(food.strMeal,25)}</p>

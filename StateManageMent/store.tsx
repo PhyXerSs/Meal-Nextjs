@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import CatergoryReducer from './CategorySelect'
-
+import NatonalReducer from './NationalSelect'
+import MealIdReducer from './MealIdSelect'
 const store = configureStore({
   reducer: {
-      Category: CatergoryReducer
+      National: NatonalReducer,
+      MealId: MealIdReducer
   },
 
 })
@@ -11,5 +12,6 @@ const store = configureStore({
 export default store;
 
 export type RootState = ReturnType<typeof store.getState>
+
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch

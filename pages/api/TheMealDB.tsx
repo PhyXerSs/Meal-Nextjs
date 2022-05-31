@@ -329,6 +329,4 @@ export async function getRecommendNationalMeals() {
         }
     }
     return recommendNationMealsList;
-    
-    
 }

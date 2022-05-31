@@ -6,10 +6,14 @@ import "swiper/css/pagination";
 import "swiper/css/effect-creative";
 import { EffectCreative , Pagination , Autoplay } from "swiper";
 import CircularProgress from '@mui/material/CircularProgress';
+import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
+import { AppDispatch, RootState } from '../StateManageMent/store';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 function RecommendNationalMeals() {
 
     const [ recommendNationMeals , setRecommendNationMeals ] = useState<recommendNationalMealsType[]|null>(null);
-    
+    const mealIdSelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.MealId.value)
+    const dispatch = useDispatch<AppDispatch>();
     useEffect(()=>{
         (async function() {
             let recommendNationalMealsResult =  await getRecommendNationalMeals();
@@ -25,16 +29,15 @@ function RecommendNationalMeals() {
         let skeletonList = [] as JSX.Element[];
         for(let i = 0 ; i < 8 ; i++){
             skeletonList.push(
-                <div key={`skeletonRecommend${i}`} className="w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
-                    <div className='h-[150px] w-full rounded-t-xl bg-[#cdcfd1]'></div>
+                <div key={`skeletonRecommend${i}`} className="w-[100px] md:w-[180px] lg:w-[250px] flex flex-col items-center justify-start rounded-xl shadow-lg animate-pulse">
+                    <div className=' w-[100px] h-[80px] md:w-[180px] md:h-[100px] lg:w-[250px] lg:h-[150px] rounded-t-xl bg-[#cdcfd1]'></div>
                     <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">
-                        <div className="w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
-                        <div className="px-3 w-[40px] h-[10px] bg-[#cbcdcf] rounded-full mt-3"></div>
+                        <div className="w-[50px] md:w-[100px] h-[10px] bg-[#cbcdcf] rounded-full"></div>
+                        <div className="px-3 w-[20px] md:w-[40px] h-[10px] bg-[#cbcdcf] rounded-full mt-3"></div>
                     </div>
                 </div>
             );
         }
-
         return skeletonList;
     }
 
@@ -77,6 +80,9 @@ function RecommendNationalMeals() {
         return result.flagImage
     }
 
+    console.log(mealIdSelect);
+    
+
     return (
         <div className="w-full max-w-[1100px] flex flex-col items-start justify-start mt-6 px-5 pt-5 shadow-md rounded-xl bg-white">
             <p className="font-semibold text-xl text-gray-600">Recommend National Meals</p>
@@ -103,10 +109,14 @@ function RecommendNationalMeals() {
                         clickable: true,
                     }}
                     modules={[EffectCreative , Pagination,Autoplay]}
-                    className="row-span-2 col-span-2 w-full max-w-[520px] flex justify-center items-center justify-items-center rounded-t-xl"
+                    className="row-span-2 col-span-2 w-full max-w-[520px] flex justify-center items-center justify-items-center rounded-xl"
                 >
                     {recommendNationMeals.map((food)=>(
-                        <SwiperSlide key={`bigNational${food.idMeal}`} className="w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative">
+                        <SwiperSlide key={`bigNational${food.idMeal}`} className="w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative cursor-pointer"
+                            onClick={()=>{
+                                dispatch(setNewMealIdSelect(food.idMeal))
+                            }}
+                        >
                             {/* <div className='h-[480px] w-full rounded-xl' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} ></div> */}
                             <img src={food.strMealThumb} alt="" className='max-h-[480px] h-full w-full rounded-xl object-cover' />
                             <div className="w-full h-[320px] bg-gradient-to-b from-transparent to-black absolute bottom-0 rounded-b-xl">
@@ -123,7 +133,11 @@ function RecommendNationalMeals() {
                 recommendNationMeals !== null ? recommendNationMeals.map((food , i)=>{
                     if(i==0){
                         return(
-                            <div key={`national${food.idMeal}`} className="row-span-2 max-h-[500px] w-full h-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden">
+                            <div key={`national${food.idMeal}`} className="row-span-2 max-h-[500px] w-full h-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden cursor-pointer"
+                                onClick={()=>{
+                                    dispatch(setNewMealIdSelect(food.idMeal))
+                                }}
+                            >
                                 <div className='w-full h-full rounded-t-xl relative' 
                                     style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} 
                                 >
@@ -141,7 +155,11 @@ function RecommendNationalMeals() {
                     }
                     if(i == 6){
                         return(
-                            <div key={`national${food.idMeal}`} className="col-span-2 col-start-3 max-w-[520px] h-full w-full flex flex-col items-end justify-start rounded-xl shadow-lg relative bg-black overflow-hidden">
+                            <div key={`national${food.idMeal}`} className="col-span-2 col-start-3 max-w-[520px] h-full w-full flex flex-col items-end justify-start rounded-xl shadow-lg relative bg-black overflow-hidden cursor-pointer"
+                                onClick={()=>{
+                                    dispatch(setNewMealIdSelect(food.idMeal))
+                                }}
+                            >
                                 <div className='max-h-[225px] h-full max-w-[450px] w-full rounded-xl relative' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} >
                                     <div className="w-[220px] h-full bg-gradient-to-r from-black to-transparent absolute left-0 rounded-b-xl rounded-t-xl">
                                         
@@ -158,7 +176,11 @@ function RecommendNationalMeals() {
                         );
                     }
                     return(
-                        <div key={`national${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden">
+                        <div key={`national${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden cursor-pointer"
+                            onClick={()=>{
+                                dispatch(setNewMealIdSelect(food.idMeal))
+                            }}
+                        >
                             {/* <div className='h-[150px] w-full rounded-t-xl' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} ></div> */}
                             <img src={food.strMealThumb} alt="" className="h-full max-h-[150px] max-w-[250px] w-full object-cover rounded-t-xl" />
                             <div className="flex flex-col w-full rounded-b-xl px-4 py-3 ">

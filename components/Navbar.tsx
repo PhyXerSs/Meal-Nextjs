@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { countries, getListCategories, listCategoriesResultType } from '../pages/api/TheMealDB';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux'
-import { setNewCategorySelectValue } from '../StateManageMent/CategorySelect';
+import { setNationalSelectValue } from '../StateManageMent/NationalSelect';
 import { AppDispatch, RootState } from '../StateManageMent/store';
 export interface categoryType{
     idCategory:string,
@@ -17,7 +17,7 @@ function Navbar() {
     const [ categoryData , setCategoryData ] = useState<categoryType[] | null>( null );
     const router = useRouter();
     const [showBgNavbar,setShowBgNavbar] = useState<boolean>(false);
-    const CategorySelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.Category.value)
+    const CategorySelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.National.value)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(()=>{
@@ -49,11 +49,9 @@ function Navbar() {
         }
     },[]);
     
-    console.log(CategorySelect);
-    
 
     return (
-        <div className={`fixed w-full top-0 flex h-[74px] justify-center items-center z-[999] ${showBgNavbar ? "bg-white border-b-2 border-orange-900" : "bg-transparent"} ease-in duration-200`}>
+        <div className={`fixed w-full top-0 flex h-[74px] justify-center items-center z-[10] ${showBgNavbar ? "bg-white border-b-2 border-orange-900" : "bg-transparent"} ease-in duration-200`}>
             <div className='flex w-full max-w-5xl justify-end items-center gap-7'>
                 <div className='flex justify-center items-center rounded-full bg-transparent hover:bg-orange-900 hover:text-white cursor-pointer ease-in duration-200 px-4 py-1'
                     onClick={()=>{
@@ -79,14 +77,14 @@ function Navbar() {
                     >
                         <Popover.Panel className="absolute -bottom-[390px] right-1 flex flex-col justify-start items-center max-h-96 w-52 rounded-md shadow-md overflow-y-auto bg-white">
                             {countries.map((country,index)=>(
-                                <div key={`countryNav${index}`} className='flex w-full justify-start items-center py-1 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
+                                <Popover.Button key={`countryNav${index}`} className='flex w-full justify-start items-center py-1 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
                                     onClick={()=>{
-                                        dispatch(setNewCategorySelectValue(country.name))
+                                        dispatch(setNationalSelectValue(country.name))
                                     }}
                                 >
                                     <img src={country.flagImage} className="w-10 rounded-sm" alt="no image" />
                                     <p>{country.name}</p>
-                                </div>
+                                </Popover.Button>
                             ))}
                         </Popover.Panel>
 
@@ -110,14 +108,14 @@ function Navbar() {
                     >
                         <Popover.Panel className="absolute -bottom-[390px] right-1 flex flex-col justify-start items-center max-h-96 w-48 rounded-md shadow-md overflow-y-auto bg-white">
                             {categoryData !== null ? categoryData.map((category)=>(
-                                <div key={`catergoryNav${category.idCategory}`} className='flex w-full justify-start items-center py-3 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
+                                <Popover.Button key={`catergoryNav${category.idCategory}`} className='flex w-full justify-start items-center py-3 px-4 hover:bg-orange-900 hover:text-white gap-3 cursor-pointer ease-in duration-200'
                                     onClick={()=>{
-                                        dispatch(setNewCategorySelectValue(category.strCategory))
+                                        dispatch(setNationalSelectValue(category.strCategory))
                                     }}
                                 >
                                     <img src={category.strCategoryThumb} className="w-10 rounded-sm" alt="no image" />
                                     <p>{category.strCategory}</p>
-                                </div>
+                                </Popover.Button>
                             )):
                             <CircularProgress size={'100px'} sx={{ color:'background-color: rgb(124 45 18 / var(--tw-bg-opacity))'}}/>
                             }
