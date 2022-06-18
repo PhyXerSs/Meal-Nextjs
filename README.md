@@ -1,4 +1,4 @@
-# Meal-nextjs
+# Meal-Nextjs
 
 Live site : https://meals-next.herokuapp.com/
 
