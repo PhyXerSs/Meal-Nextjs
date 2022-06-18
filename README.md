@@ -2,7 +2,7 @@
 
 Live site : https://meals-next.herokuapp.com/
 
-NextJS Project with Redux. Use ThemealDB API for backend.
+NextJS Project with Redux. Fully responsive. Use ThemealDB API for backend.
 
 # 	**Preview**
 
