@@ -3,10 +3,12 @@ import { latestMealType } from './LatestMeals';
 import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../StateManageMent/store';
+import { useRouter } from 'next/router';
 
 function ModalLatestMeals({food , index}:{food:latestMealType , index:number}) {
     const dispatch = useDispatch<AppDispatch>();
-    const modalRef = useRef<HTMLDivElement>(null)
+    const modalRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
     function colorCategory(category:string){
         if(category === 'Beef'){
             return 'bg-orange-900';
@@ -65,6 +67,7 @@ function ModalLatestMeals({food , index}:{food:latestMealType , index:number}) {
     return (
         <div ref={modalRef} key={`latest${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg cursor-pointer"
             onClick={()=>{
+                router.push(`/foodDetail/${food.idMeal}`)
                 dispatch(setNewMealIdSelect(food.idMeal))
             }}
         >

@@ -10,11 +10,13 @@ import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
 import { AppDispatch, RootState } from '../StateManageMent/store';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import ModalRecomendNationalMeals from './ModalRecomendNationalMeals';
+import { useRouter } from 'next/router';
 function RecommendNationalMeals() {
 
     const [ recommendNationMeals , setRecommendNationMeals ] = useState<recommendNationalMealsType[]|null>(null);
     const mealIdSelect:TypedUseSelectorHook<RootState> = useSelector<any,any>((state)=>state.MealId.value)
     const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
     useEffect(()=>{
         (async function() {
             let recommendNationalMealsResult =  await getRecommendNationalMeals();
@@ -74,7 +76,8 @@ function RecommendNationalMeals() {
                     {recommendNationMeals.map((food)=>(
                         <SwiperSlide key={`bigNational${food.idMeal}`} className="w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative cursor-pointer"
                             onClick={()=>{
-                                dispatch(setNewMealIdSelect(food.idMeal))
+                                router.push(`/foodDetail/${food.idMeal}`);
+                                dispatch(setNewMealIdSelect(food.idMeal));
                             }}
                         >
                             {/* <div className='h-[480px] w-full rounded-xl' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} ></div> */}

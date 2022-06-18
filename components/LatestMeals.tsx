@@ -53,7 +53,7 @@ function LatestMeals() {
             <div className="w-full grid grid-cols-4 gap-5 mt-4 py-4 border-t-[1px] border-gray-200 items-center justify-center justify-items-center">
                 {
                 foodData !== null ? foodData.map((food,index)=>(
-                    <ModalLatestMeals food={food} index={index}/>
+                    <ModalLatestMeals key={`ModalLatestMeals${food?.idMeal}`} food={food} index={index}/>
                 )):
                 skeletonLoading()
                 

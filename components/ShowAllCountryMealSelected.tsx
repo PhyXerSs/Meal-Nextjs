@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { MealIdSelect, setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
 import { setNationalSelectValue } from '../StateManageMent/NationalSelect';
 import { getMealById, getMealsByNation, mealsByNationType } from '../pages/api/TheMealDB';
+import { useRouter } from 'next/router';
 
 
 export interface ShowAllCountryMealSelectedType{
@@ -20,7 +21,7 @@ function ShowAllCountryMealSelected() {
     const NationalFlagSelect = useSelector<any,any>((state)=>state.National.flag)
     const dispatch = useDispatch<AppDispatch>();
     const [ foodData , setFoodData ] = useState<ShowAllCountryMealSelectedType[] | null>(null);
-
+    const router = useRouter();
     function skeletonLoading(){
         let skeletonList = [] as JSX.Element[];
         for(let i = 0 ; i < 12 ; i++){
@@ -145,7 +146,11 @@ function ShowAllCountryMealSelected() {
                         foodData !== null ? foodData.map((food)=>(
                             <div key={`ShowAllNationSelect${food.idMeal}`} className="max-w-[250px] max-h-[230px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg cursor-pointer"
                                 onClick={()=>{
-                                    dispatch(setNewMealIdSelect(food.idMeal))
+                                    router.push(`/foodDetail/${food.idMeal}`);
+                                    dispatch(setNationalSelectValue({
+                                        nationName:'-',
+                                        flag : '-'
+                                    }))
                                 }}
                             >
                                 <img src={food.strMealThumb} alt="" className='max-w-[250px] h-full max-h-[150px] w-full rounded-t-xl object-cover '/>

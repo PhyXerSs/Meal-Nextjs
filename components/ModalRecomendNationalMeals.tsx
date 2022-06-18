@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { countries, countriesType, recommendNationalMealsType } from '../pages/api/TheMealDB';
@@ -6,7 +7,8 @@ import { AppDispatch } from '../StateManageMent/store';
 
 function ModalRecomendNationalMeals({food , i} : {food:recommendNationalMealsType,i:number}) {
     const dispatch = useDispatch<AppDispatch>();
-    const modalRef = useRef<HTMLDivElement>(null)
+    const modalRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
     function truncate(str:string,n:number){
         return str?.length > n ? str.substr(0,n-1) + "..." : str;
     }
@@ -71,7 +73,8 @@ function ModalRecomendNationalMeals({food , i} : {food:recommendNationalMealsTyp
         return(
             <div ref={modalRef} key={`national${food.idMeal}`} className="row-span-2 max-h-[500px] w-full h-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden cursor-pointer"
                 onClick={()=>{
-                    dispatch(setNewMealIdSelect(food.idMeal))
+                    router.push(`/foodDetail/${food.idMeal}`);
+                    dispatch(setNewMealIdSelect(food.idMeal));
                 }}
             >
                 <div className='w-full h-full rounded-t-xl relative' 
@@ -93,7 +96,8 @@ function ModalRecomendNationalMeals({food , i} : {food:recommendNationalMealsTyp
         return(
             <div ref={modalRef} key={`national${food.idMeal}`} className="col-span-2 col-start-3 max-w-[520px] h-full w-full flex flex-col items-end justify-start rounded-xl shadow-lg relative bg-black overflow-hidden cursor-pointer"
                 onClick={()=>{
-                    dispatch(setNewMealIdSelect(food.idMeal))
+                    router.push(`/foodDetail/${food.idMeal}`);
+                    dispatch(setNewMealIdSelect(food.idMeal));
                 }}
             >
                 <div className='max-h-[225px] h-full max-w-[450px] w-full rounded-xl relative' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} >
@@ -114,7 +118,8 @@ function ModalRecomendNationalMeals({food , i} : {food:recommendNationalMealsTyp
     return(
         <div ref={modalRef} key={`national${food.idMeal}`} className="max-w-[250px] w-full flex flex-col items-center justify-start rounded-xl shadow-lg relative overflow-hidden cursor-pointer"
             onClick={()=>{
-                dispatch(setNewMealIdSelect(food.idMeal))
+                router.push(`/foodDetail/${food.idMeal}`);
+                dispatch(setNewMealIdSelect(food.idMeal));
             }}
         >
             {/* <div className='h-[150px] w-full rounded-t-xl' style={{backgroundImage:`url(${food.strMealThumb})` , backgroundPosition:'center' , backgroundSize:'cover',backgroundRepeat:'no-repeat'}} ></div> */}

@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux'
 import Banner from '../components/Banner'
 import LatestMeals from '../components/LatestMeals'
 import RecommendNationalMeals from '../components/RecommendNationalMeals'
-import ShowAllCategoryMealsSelected from '../components/ShowAllCategoryMealsSelected'
-import ShowAllCountryMealSelected from '../components/ShowAllCountryMealSelected'
+
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -25,8 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <ShowAllCountryMealSelected/>
-      <ShowAllCategoryMealsSelected/>
+
       <div className="flex flex-col items-center bg-[#edf0f2]">
         
         <Banner/>

@@ -9,6 +9,7 @@ import { EffectFade, Pagination , Autoplay } from "swiper";
 import { setNewMealIdSelect } from '../StateManageMent/MealIdSelect';
 import { AppDispatch, RootState } from '../StateManageMent/store';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 
 export interface BannerMealType{
     idMeal:string,
@@ -71,11 +72,14 @@ function Banner() {
                         </div>
                         <div className="flex flex-col items-center justify-center w-[450px] gap-7 absolute right-2">
                             <p className=" font-semibold text-4xl text-gray-black mt-10 text-center">{food.strMeal}</p>
-                            <button className="px-2 py-1 border-[2.5px] border-black font-semibold hover:bg-black hover:text-white ease-in duration-200"
-                                onClick={()=>{
-                                    dispatch(setNewMealIdSelect(food.idMeal))
-                                }}
-                            >More Info</button>
+                            <Link href={`/foodDetail/${food.idMeal}`}>
+                                <a className="px-2 py-1 border-[2.5px] border-orange-900 text-orange-900 font-semibold hover:bg-orange-900 hover:text-white ease-in duration-200"
+                                    onClick={()=>{
+                                        dispatch(setNewMealIdSelect(food.idMeal))
+                                    }}
+                                    
+                                >More Info</a>
+                            </Link>
                         </div>
                     </SwiperSlide>
                 ))

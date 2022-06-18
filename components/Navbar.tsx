@@ -53,6 +53,7 @@ function Navbar() {
     return (
         <div className={`fixed w-full top-0 flex h-[74px] justify-center items-center z-[10] ${showBgNavbar ? "bg-white border-b-2 border-orange-900" : "bg-transparent"} ease-in duration-200`}>
             <div className='flex w-full max-w-5xl justify-end items-center gap-7'>
+                
                 <div className='flex justify-center items-center rounded-full bg-transparent hover:bg-orange-900 hover:text-white cursor-pointer ease-in duration-200 px-4 py-1'
                     onClick={()=>{
                         router.push('/')
