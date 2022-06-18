@@ -1,4 +1,4 @@
-# reactJS-movies-series-hub
+# Meal-nextjs
 
 Live site : https://meals-next.herokuapp.com/
 
